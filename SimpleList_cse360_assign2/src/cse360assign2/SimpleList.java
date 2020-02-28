@@ -11,8 +11,9 @@ import java.util.Arrays;
 
 /**
  * This is the simple list class. Creates an array that stores up 
- * integers. Keeps track of the number of elements.
+ * integers. Keeps track of the number of elements and size.
  * Includes methods for element insertion, deletion, count, search.
+ * Also retrieves first and last elements.
  * @author Alyssa Lim
  * 
  */
@@ -52,6 +53,8 @@ public class SimpleList
 		{
 			int halfSize = (int) Math.floor(this.size * 0.50);
 			this.size += halfSize;
+			
+			// Increase size by 50%
 			int[] newArr = Arrays.copyOf(this.list, this.size);
 			this.list = newArr;
 			
@@ -93,7 +96,6 @@ public class SimpleList
 	public void remove(int key)
 	{
 		int indexOfKey = search(key);
-		
 		
 		if(indexOfKey != -1) // if element exists
 		{
@@ -163,8 +165,7 @@ public class SimpleList
 	 * Returns index of this parameter in the list
 	 * 
 	 * @param key			the integer being searched for
-	 * @return indexOfKey	location of parameter. 
-	 * 						If not found, its value is -1.
+	 * @return indexOfKey	location of parameter. If not found, its value is -1.
 	 */
 	public int search(int key)
 	{
@@ -183,5 +184,84 @@ public class SimpleList
 		
 		return indexOfKey;	
 	}
+	
+	/**
+	 * Adds this parameter to the end of this list.
+	 * The existing list shifts elements over one index.
+	 * Increases size by 50% if full.
+	 * Increments count.
+	 * 
+	 * @param newNum		the integer to add to this list
+	 */
+	public void append(int newNum)
+	{
+		if(this.count == this.size) // full
+		{
+			int halfSize = (int) Math.floor(this.size * 0.50);
+			this.size += halfSize;
+			
+			// Increase size by 50%
+			int[] newArr = Arrays.copyOf(this.list, this.size);
+			this.list = newArr;
+		}
+		
+		this.list[this.count] = newNum;
+		this.count++;
+	}
+	
+	/**
+	 * Returns the first element in the list. 
+	 * Returns -1 if empty.
+	 * 
+	 * @return firstElement	the beginning integer
+	 */
+	public int first()
+	{
+		int firstElement;
+		
+		if(this.count == 0)
+		{
+			firstElement = -1;
+		}
+		else
+		{
+			firstElement = this.list[0];
+		}
+		
+		return firstElement;
+	}
+	
+	/**
+	 * Returns the last element in the list. 
+	 * Returns -1 if empty.
+	 * 
+	 * @return lastElement	the last integer
+	 */
+	public int last()
+	{
+		int lastElement;
+		
+		if(this.count == 0)
+		{
+			lastElement = -1;
+		}
+		else
+		{
+			lastElement = this.list[this.count - 1];
+		}
+		
+		return lastElement;
+	}
+	
+	/**
+	 * Returns the current number of possible locations in the list. 
+	 * 
+	 * @return size			the list size
+	 */
+	public int size()
+	{
+		return this.size;
+	}
 
 }
+
