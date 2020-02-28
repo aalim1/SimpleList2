@@ -7,6 +7,8 @@
  ***************************************************************************/
 package cse360assign2;
 
+import java.util.Arrays;
+
 /**
  * This is the simple list class. Creates an array that stores up 
  * integers. Keeps track of the number of elements.
@@ -18,7 +20,7 @@ public class SimpleList
 {
 	private int[] list;
 	private int count;
-	private final int MAX = 10;
+	private int size;
 	
 	/**
 	 * Creates an array to hold 10 integer elements. 
@@ -26,13 +28,15 @@ public class SimpleList
 	 */
 	public SimpleList()
 	{
-		this.list = new int[this.MAX];
+		this.size = 10;
+		this.list = new int[this.size];
 		this.count = 0;
 	}
 	
 	/**
 	 * Adds this parameter to the beginning of this list.
 	 * The existing list shifts elements over one index. 
+	 * Increases size by 50% if full.
 	 * Increments count.
 	 * 
 	 * @param newNum		the integer to add to this list
@@ -44,9 +48,14 @@ public class SimpleList
 			this.list[0] = newNum;
 			this.count++;
 		}
-		else if (this.count == this.MAX) // full
+		else if (this.count == this.size) // full
 		{
-			int index = this.count - 1;
+			int halfSize = (int) Math.floor(this.size * 0.50);
+			this.size += halfSize;
+			int[] newArr = Arrays.copyOf(this.list, this.size);
+			this.list = newArr;
+			
+			int index = this.count;
 			
 			while(index > 0) // shift elements
 			{
@@ -55,6 +64,7 @@ public class SimpleList
 			}
 				
 			this.list[0] = newNum;
+			this.count++;
 		}
 		else
 		{
@@ -69,8 +79,6 @@ public class SimpleList
 			this.list[0] = newNum;
 			this.count++;
 		}
-		
-		
 	}
 	
 	/**
@@ -78,6 +86,7 @@ public class SimpleList
 	 * removes first instance of it.
 	 * Moves elements after this parameter up one index. 
 	 * Decrements count.
+	 * Reduces size if more than 25% empty.
 	 * 
 	 * @param key			the integer to remove from this list
 	 */
@@ -85,17 +94,32 @@ public class SimpleList
 	{
 		int indexOfKey = search(key);
 		
+		
 		if(indexOfKey != -1) // if element exists
 		{
 			int index = indexOfKey;
-			
+				
 			while(index < (this.count - 1)) // shift elements
 			{
 				this.list[index] = this.list[index + 1];
 				index++;
 			}
-			
+				
 			this.count--;
+		}	
+		
+		int numOfEmpty = this.size - this.count;
+		int fourthSize = (int) Math.floor(this.size * 0.25);
+		int newSize = this.size - fourthSize;
+		
+		if(numOfEmpty > fourthSize) // more than 25% empty
+		{
+			if (newSize > 0)
+			{
+				this.size = newSize; // decrease size by 25%
+				int[] newArr = Arrays.copyOf(this.list, this.size);
+				this.list = newArr;
+			}
 		}
 	}
 	
