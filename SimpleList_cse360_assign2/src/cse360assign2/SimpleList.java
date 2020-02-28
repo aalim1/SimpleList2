@@ -8,6 +8,7 @@
 package cse360assign2;
 
 import java.util.Arrays;
+import java.lang.Math;
 
 /**
  * This is the simple list class. Creates an array that stores up 
@@ -163,9 +164,10 @@ public class SimpleList
 	
 	/**
 	 * Returns index of this parameter in the list
+	 * If not found, its value is -1.
 	 * 
 	 * @param key			the integer being searched for
-	 * @return indexOfKey	location of parameter. If not found, its value is -1.
+	 * @return indexOfKey	location of parameter. 
 	 */
 	public int search(int key)
 	{
